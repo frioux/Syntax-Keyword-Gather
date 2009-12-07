@@ -206,6 +206,13 @@ first line they have in common. We could gather the lines like this:
     }
  }
 
+=head1 HISTORY
+
+This module was forked from Damian Conway's L<Perl6::Gather> to avoid the
+slightly incendiary name and the use of the Perl6::Exporter.  Except for the
+fact that ~ is no longer overloaded to mean string context this module should
+be a drop in replacement for that one.
+
 =head1 BUGS AND IRRITATIONS
 
 It would be nice to be able to code the default case as:
