@@ -1,12 +1,16 @@
 package Perl6::Gather;
-use Perl6::Export;
 use Carp;
 
-use version; our $VERSION = qv('0.41');
+use Sub::Exporter -setup => {
+    exports => [ qw{ break gather gathered take }, ],
+    groups => {
+       default => [ qw{ break gather gathered take }, ],
+    },
+  };
 
 my %gatherers;
 
-sub gather(&) is export(:DEFAULT) {
+sub gather(&) {
 	croak "Useless use of 'gather' in void context" unless defined wantarray;
 	my ($code) = @_;
 	my $caller = caller;
@@ -18,13 +22,13 @@ sub gather(&) is export(:DEFAULT) {
 	return   pop @{$gatherers{$caller}}  if defined wantarray;
 }
 
-sub gathered() is export(:DEFAULT) {
+sub gathered() {
 	my $caller = caller;
 	croak "Call to gathered not inside a gather" unless @{$gatherers{$caller}};
 	return $gatherers{$caller}[-1];
 }
 
-sub take(@) is export(:DEFAULT) {
+sub take(@) {
 	@_ = $_ unless @_;
 	my $caller = caller;
 	croak "Call to take not inside a gather block"
@@ -35,7 +39,7 @@ sub take(@) is export(:DEFAULT) {
 
 my $breaker = bless [], 'Perl6::Gather::Break';
 
-sub break() is export(:DEFAULT) {
+sub break() {
 	die $breaker;
 }
 
@@ -132,7 +136,7 @@ we could write:
               }
 
 As the above example implies, if C<take> is called without any
-arguments, it takes the current topic. 
+arguments, it takes the current topic.
 
 There is also a third function -- C<gathered> -- which returns a
 reference to the implicit array being gathered. This is useful for
