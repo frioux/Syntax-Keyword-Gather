@@ -226,3 +226,10 @@ It would be nice to be able to code the default case as:
 
 but Perl 5's C<or> imposes a scalar context on its left argument.
 This is arguably a bug and definitely an irritation.
+
+=for Pod::Coverage
+ gather
+ gathered
+ take
+ break
+=cut
