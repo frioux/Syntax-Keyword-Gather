@@ -11,36 +11,35 @@ use Sub::Exporter -setup => {
 my %gatherers;
 
 sub gather(&) {
-	croak "Useless use of 'gather' in void context" unless defined wantarray;
-	my ($code) = @_;
-	my $caller = caller;
-	local @_;
-	push @{$gatherers{$caller}}, bless \@_, 'Syntax::Keyword::Gather::MagicArrayRef';
-	die $@
-           if !eval{ &$code } && $@ && !UNIVERSAL::isa($@, Syntax::Keyword::Gather::Break);
-	return @{pop @{$gatherers{$caller}}} if wantarray;
-	return   pop @{$gatherers{$caller}}  if defined wantarray;
+   croak "Useless use of 'gather' in void context" unless defined wantarray;
+   my ($code) = @_;
+   my $caller = caller;
+   local @_;
+   push @{$gatherers{$caller}}, bless \@_, 'Syntax::Keyword::Gather::MagicArrayRef';
+   die $@
+      if !eval{ &$code } && $@ && !UNIVERSAL::isa($@, Syntax::Keyword::Gather::Break);
+   return @{pop @{$gatherers{$caller}}} if wantarray;
+   return   pop @{$gatherers{$caller}}  if defined wantarray;
 }
 
 sub gathered() {
-	my $caller = caller;
-	croak "Call to gathered not inside a gather" unless @{$gatherers{$caller}};
-	return $gatherers{$caller}[-1];
+   my $caller = caller;
+   croak "Call to gathered not inside a gather" unless @{$gatherers{$caller}};
+   return $gatherers{$caller}[-1];
 }
 
 sub take(@) {
-	@_ = $_ unless @_;
-	my $caller = caller;
-	croak "Call to take not inside a gather block"
-		unless ((caller 3)[3]||"") eq 'Syntax::Keyword::Gather::gather';
-	push @{$gatherers{$caller}[-1]}, @_;
-	return 0+@_;
+   my $caller = caller;
+   croak "Call to take not inside a gather block"
+      unless ((caller 3)[3]||"") eq 'Syntax::Keyword::Gather::gather';
+   push @{$gatherers{$caller}[-1]}, @_;
+   return 0+@_;
 }
 
 my $breaker = bless [], 'Syntax::Keyword::Gather::Break';
 
 sub break() {
-	die $breaker;
+   die $breaker;
 }
 
 package Syntax::Keyword::Gather::MagicArrayRef;
@@ -66,8 +65,8 @@ Syntax::Keyword::Gather - Implements the Perl 6 'gather/take' control structure 
  my @list = gather {
     # Try to extract odd numbers and odd number names...
     for (@data) {
-       if (/(one|three|five|seven|nine)$/) { take qq{'$_'}; }
-       elsif (/^\d+$/ && $_ %2)      { take; }
+       if (/(one|three|five|seven|nine)$/) { take qq{'$_'} }
+       elsif (/^\d+$/ && $_ %2)            { take $_ }
     }
     # But use the default set if there aren't any of either...
     take @defaults unless gathered;
@@ -126,12 +125,9 @@ we could write:
     while (<>) {
        next if /^#|^\s*$/;
        last if /^__[DATA|END]__\n$/;
-       take;
+       take $_;
     }
  };
-
-As the above example implies, if C<take> is called without any
-arguments, it takes the current topic.
 
 There is also a third function -- C<gathered> -- which returns a
 reference to the implicit array being gathered. This is useful for
@@ -139,7 +135,7 @@ handling defaults:
 
  my @odds = gather {
     for @data {
-       take if $_ % 2;
+       take $_ if $_ % 2;
        take to_num($_) if /[one|three|five|nine]$/;
     }
     take (1,3,5,7,9) unless gathered;
@@ -156,7 +152,7 @@ prepend a count of non-numeric items:
 
  my @odds = gather {
     for @data {
-       take if $_ %2;
+       take $_ if $_ %2;
        take to_num($_) if /[one|three|five|seven|nine]$/;
     }
     unshift gathered, +grep(/[a-z]/i, @data);
@@ -181,7 +177,7 @@ as:
    my @list = @{shift @_};
 
    return gather {
-      take if $coderef->($_) for @list
+      take $_ if $coderef->($_) for @list
    };
  }
 
@@ -208,16 +204,26 @@ first line they have in common. We could gather the lines like this:
 
 =head1 HISTORY
 
-This module was forked from Damian Conway's L<Perl6::Gather> to avoid the
-slightly incendiary name and the use of the Perl6::Exporter.  Except for the
-fact that ~ is no longer overloaded to mean string context this module should
-be a drop in replacement for that one.
+This module was forked from Damian Conway's L<Perl6::Gather> for a few reasons.
+
+=over 1
+
+=item to avoid the slightly incendiary name
+=item to avoid the use of the Perl6::Exporter
+=item ~ doesn't overload to mean string context
+=item to no longer takes the current topic ($_)
+
+=back
+
+The last item is actually due to an unintended side-effect of the fact that if
+C<take> has an array of zero length it takes $_, which is suprising at the very
+least.  I'll fix that issue if I can.
 
 =head1 BUGS AND IRRITATIONS
 
 It would be nice to be able to code the default case as:
 
- @odds = gather {
+ my @odds = gather {
     for (@data) {
        take if $_ % 2;
        take to_num($_) if /(?:one|three|five|nine)\z/;
