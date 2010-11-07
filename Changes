@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.001000  2010-11-06 22:23:35 CST6CDT
    - Stop using RJBS-versions
    - Add support for syntax.pm
 
