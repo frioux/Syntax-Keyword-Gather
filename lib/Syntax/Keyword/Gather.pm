@@ -72,6 +72,16 @@ Syntax::Keyword::Gather - Implements the Perl 6 'gather/take' control structure 
     take @defaults unless gathered;
  }
 
+or to use the stuff that L<Sub::Exporter> gives us, try
+
+ # this is a silly idea
+ use syntax gather => {
+   gather => { -as => 'bake' },
+   take   => { -as => 'cake' },
+ };
+
+ my @vals = bake { cake (1...10) };
+
 =head1 DESCRIPTION
 
 Perl 6 provides a new control structure -- C<gather> -- that allows
