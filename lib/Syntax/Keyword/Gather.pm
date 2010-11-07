@@ -1,5 +1,9 @@
 package Syntax::Keyword::Gather;
-use Carp;
+
+use strict;
+use warnings;
+
+use Carp 'croak';
 
 use Sub::Exporter -setup => {
    exports => [qw{ break gather gathered take }],
@@ -17,7 +21,7 @@ sub gather(&) {
    local @_;
    push @{$gatherers{$caller}}, bless \@_, 'Syntax::Keyword::Gather::MagicArrayRef';
    die $@
-      if !eval{ &$code } && $@ && !UNIVERSAL::isa($@, Syntax::Keyword::Gather::Break);
+      if !eval{ &$code } && $@ && !UNIVERSAL::isa($@, 'Syntax::Keyword::Gather::Break');
    return @{pop @{$gatherers{$caller}}} if wantarray;
    return   pop @{$gatherers{$caller}}  if defined wantarray;
 }
@@ -242,10 +246,3 @@ It would be nice to be able to code the default case as:
 
 but Perl 5's C<or> imposes a scalar context on its left argument.
 This is arguably a bug and definitely an irritation.
-
-=for Pod::Coverage
- gather
- gathered
- take
- break
-=cut
