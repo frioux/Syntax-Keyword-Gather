@@ -1,4 +1,7 @@
-Revision history for Syntax::Keyword::Gather
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+   - Add support for syntax.pm
 
 0.093420 Mon Dec 07 2009 11:24:00
    - Initial fork of Perl6::Gather
