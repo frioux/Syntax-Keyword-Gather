@@ -12,55 +12,36 @@ use Sub::Exporter -setup => {
    },
 };
 
-my %gatherers;
+our ( $_takesub, $_gatheredsub );
 
 sub gather(&) {
    croak "Useless use of 'gather' in void context" unless defined wantarray;
-   my ($code) = @_;
-   my $caller = caller;
-   local @_;
-   push @{$gatherers{$caller}}, bless \@_, 'Syntax::Keyword::Gather::MagicArrayRef';
-   die $@
-      if !eval{ &$code } && $@ && !UNIVERSAL::isa($@, 'Syntax::Keyword::Gather::Break');
-   return @{pop @{$gatherers{$caller}}} if wantarray;
-   return   pop @{$gatherers{$caller}}  if defined wantarray;
+   my $code = shift;
+
+   my $gathered;
+   local $_takesub = sub { push @$gathered, @_ };
+   local $_gatheredsub = sub { return $gathered };
+
+   GATHER: { $code->() };
+
+   return @$gathered;
 }
 
-sub gathered() {
-   my $caller = caller;
-   croak "Call to gathered not inside a gather" unless @{$gatherers{$caller}};
-   return $gatherers{$caller}[-1];
+sub take {
+   croak "Cannot take outside gather" unless $_takesub;
+   goto &$_takesub;
 }
 
-sub take(@) {
-   my $caller = caller;
-   croak "Call to take not inside a gather block"
-      unless ((caller 3)[3]||"") eq 'Syntax::Keyword::Gather::gather';
-   push @{$gatherers{$caller}[-1]}, @_;
-   return 0+@_;
+sub gathered {
+   croak "Cannot gathered outside gather" unless $_gatheredsub;
+   goto &$_gatheredsub;
 }
 
-my $breaker = bless [], 'Syntax::Keyword::Gather::Break';
+sub break { no warnings 'exiting'; last GATHER }
 
-sub break() {
-   die $breaker;
-}
-
-package Syntax::Keyword::Gather::MagicArrayRef;
-
-use overload
-   'bool'   => sub { @{$_[0]} > 0      },
-   '0+'     => sub { @{$_[0]} + 0      },
-   '""'     => sub { join q{}, @{$_[0]} },
-   fallback => 1;
-
-1;
+1
 
 __END__
-
-=head1 NAME
-
-Syntax::Keyword::Gather - Implements the Perl 6 'gather/take' control structure in Perl 5
 
 =head1 SYNOPSIS
 
