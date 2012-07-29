@@ -5,6 +5,8 @@ use warnings;
 
 # ABSTRACT: Provide a gather keyword
 
+# VERSION
+
 use Syntax::Keyword::Gather ();
 
 sub install {

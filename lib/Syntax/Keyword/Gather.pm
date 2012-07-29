@@ -3,6 +3,8 @@ package Syntax::Keyword::Gather;
 use strict;
 use warnings;
 
+# VERSION
+
 use Carp 'croak';
 
 use Sub::Exporter::Progressive -setup => {
