@@ -5,7 +5,7 @@ use warnings;
 
 use Carp 'croak';
 
-use Sub::Exporter -setup => {
+use Sub::Exporter::Progressive -setup => {
    exports => [qw{ break gather gathered take }],
    groups => {
       default => [qw{ break gather gathered take }],
