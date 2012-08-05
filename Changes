@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+   - Split Syntax::Feature::Gather away from Syntax::Keyword::Gather so we
+     don't need to dep on syntax.pm
 
 1.001001  2012-07-29 16:50:36 America/Chicago
    - Use Sub::Exporter::Progressive
