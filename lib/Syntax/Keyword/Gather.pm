@@ -225,8 +225,11 @@ This module was forked from Damian Conway's L<Perl6::Gather> for a few reasons.
 =over 1
 
 =item to avoid the slightly incendiary name
+
 =item to avoid the use of the Perl6::Exporter
+
 =item ~ doesn't overload to mean string context
+
 =item to no longer takes the current topic ($_)
 
 =back

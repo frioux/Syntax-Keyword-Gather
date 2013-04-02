@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+   - Fix silly POD error (Yanick Champoux)
 
 1.002001  2012-11-17 16:21:59 CST6CDT
    - Put MetaYAML back in dist
