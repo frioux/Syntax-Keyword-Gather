@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.002003  2013-09-25 21:59:23 America/Chicago
    - remove bonus NAME section
 
 1.002002  2013-04-04 18:38:43 CST6CDT
