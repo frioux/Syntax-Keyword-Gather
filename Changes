@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+   - remove bonus NAME section
 
 1.002002  2013-04-04 18:38:43 CST6CDT
    - Fix silly POD error (Yanick Champoux)

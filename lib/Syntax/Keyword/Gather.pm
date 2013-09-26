@@ -5,6 +5,8 @@ use warnings;
 
 # VERSION
 
+# ABSTRACT: Implements the Perl 6 'gather/take' control structure in Perl 5
+
 use Carp 'croak';
 
 use Sub::Exporter::Progressive -setup => {
@@ -59,10 +61,6 @@ use overload
 1;
 
 __END__
-
-=head1 NAME
-
-Syntax::Keyword::Gather - Implements the Perl 6 'gather/take' control structure in Perl 5
 
 =head1 SYNOPSIS
 
