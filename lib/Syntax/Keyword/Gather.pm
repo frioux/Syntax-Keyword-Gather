@@ -233,7 +233,7 @@ This module was forked from Damian Conway's L<Perl6::Gather> for a few reasons.
 =back
 
 The last item is actually due to an unintended side-effect of the fact that if
-C<take> has an array of zero length it takes $_, which is suprising at the very
+C<take> has an array of zero length it takes $_, which is surprising at the very
 least.  I'll fix that issue if I can.
 
 =head1 BUGS AND IRRITATIONS

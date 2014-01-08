@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+   - Fix silly POD error (David Steinbrunner)
 
 1.002003  2013-09-25 21:59:23 America/Chicago
    - remove bonus NAME section
