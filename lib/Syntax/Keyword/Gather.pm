@@ -40,6 +40,7 @@ sub take(@) {
    my $caller = caller;
    croak "Call to take not inside a gather block"
       unless ((caller 3)[3]||"") eq 'Syntax::Keyword::Gather::gather';
+   @_ = $_ unless @_;
    push @{$gatherers{$caller}[-1]}, @_;
    return 0+@_;
 }
