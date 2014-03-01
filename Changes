@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+   - take with no arguments now takes $_! (Thanks Matthias Bloch!)
    - Ditch RT
 
 1.002004  2014-01-09 18:21:15 America/Chicago

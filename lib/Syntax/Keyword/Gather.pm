@@ -38,6 +38,7 @@ sub take(@) {
    my $caller = caller;
    croak "Call to take not inside a gather block"
       unless ((caller 3)[3]||"") eq 'Syntax::Keyword::Gather::gather';
+   @_ = $_ unless @_;
    push @{$gatherers{$caller}[-1]}, @_;
    return 0+@_;
 }
@@ -213,6 +214,18 @@ first line they have in common. We could gather the lines like this:
        else                { last }
     }
  }
+
+If you like it really short, you can also gather-take $_ magically:
+
+my @numbers_with_two = gather {
+    for (1..20) {
+        take if /2/
+    }
+};
+# @numbers_with_two contains 2, 12, 20
+
+Be aware that $_ in Perl5 is a global variable rather than the
+current topic like in Perl6.
 
 =head1 HISTORY
 
