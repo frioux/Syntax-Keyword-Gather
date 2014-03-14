@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+   - Ditch RT
 
 1.002004  2014-01-09 18:21:15 America/Chicago
    - Fix silly POD error (David Steinbrunner)
