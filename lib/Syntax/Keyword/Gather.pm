@@ -3,8 +3,6 @@ package Syntax::Keyword::Gather;
 use strict;
 use warnings;
 
-# VERSION
-
 # ABSTRACT: Implements the Perl 6 'gather/take' control structure in Perl 5
 
 use Carp 'croak';
