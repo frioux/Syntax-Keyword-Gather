@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.003000  2014-03-14 16:50:16-05:00 America/Chicago
    - take with no arguments now takes $_! (Thanks Matthias Bloch!)
    - Ditch RT
 
