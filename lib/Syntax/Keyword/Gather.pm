@@ -215,7 +215,7 @@ first line they have in common. We could gather the lines like this:
     }
  }
 
-If you like it really short, you can also gather-take $_ magically:
+If you like it really short, you can also C<gather>/C<take> $_ magically:
 
 my @numbers_with_two = gather {
     for (1..20) {
@@ -239,13 +239,7 @@ This module was forked from Damian Conway's L<Perl6::Gather> for a few reasons.
 
 =item ~ doesn't overload to mean string context
 
-=item to no longer takes the current topic ($_)
-
 =back
-
-The last item is actually due to an unintended side-effect of the fact that if
-C<take> has an array of zero length it takes $_, which is surprising at the very
-least.  I'll fix that issue if I can.
 
 =head1 BUGS AND IRRITATIONS
 
