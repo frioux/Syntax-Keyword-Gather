@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.003001  2014-08-20 18:39:35-05:00 America/Chicago
    - Fix docs that should have been updated in 1.003000
      (Thanks Grzegorz Rożniecki!)
 
