@@ -79,8 +79,8 @@ or to use the stuff that L<Sub::Exporter> gives us, try
 
  # this is a silly idea
  use syntax gather => {
-   gather => { -as => 'bake' },
-   take   => { -as => 'cake' },
+    gather => { -as => 'bake' },
+    take   => { -as => 'cake' },
  };
 
  my @vals = bake { cake (1...10) };
@@ -217,12 +217,12 @@ first line they have in common. We could gather the lines like this:
 
 If you like it really short, you can also C<gather>/C<take> $_ magically:
 
-my @numbers_with_two = gather {
+ my @numbers_with_two = gather {
     for (1..20) {
-        take if /2/
+       take if /2/
     }
-};
-# @numbers_with_two contains 2, 12, 20
+ };
+ # @numbers_with_two contains 2, 12, 20
 
 Be aware that $_ in Perl5 is a global variable rather than the
 current topic like in Perl6.
