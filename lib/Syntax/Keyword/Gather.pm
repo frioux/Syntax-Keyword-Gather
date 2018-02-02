@@ -190,7 +190,7 @@ as:
    my @list = @{shift @_};
 
    return gather {
-      take $_ if $coderef->($_) for @list
+      do { take $_ if $coderef->($_) } for @list
    };
  }
 
